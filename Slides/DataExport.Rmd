@@ -114,8 +114,8 @@ ____
 ---
 class: top, left
 layout: true
-# Patterns of Data Export (Cross-sectional)
-## Non-repeating instruments [PID 3037](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3037)
+#  Cross-sectional projects
+## Non-repeating instruments
 
 ```{r, echo=FALSE, message=FALSE, results='hide'}
 library(tidyverse)
@@ -148,31 +148,38 @@ background-position: 25% 70%
 background-size: 60%
 
 ---
+class: top, left
 
 ```{r, class.output="tight"}
+cross_sectional %>%
+  slice(1:10) %>%
+  select(1:10) %>%
+  mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
+  kbl(align = "l")
+```
+
+- .my-coral[One single row per participant.]
+- Each row contains all of the project variables
+
+---
+
+```{r}
 cross_sectional %>%
   mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
   kbl(align = "l") %>%
   kable_styling(full_width = FALSE, font_size = 14) %>%
-  scroll_box(height = "450px")
+  scroll_box(height = "400px")
 ```
 
----
-class: top, left
-
-REDCap exports .my-coral[non-repeating instrument] data in a single row per participant.  
-Each row contains all variables collected in the form, and there is .my-coral[no repetition of] `record_id`.
-
-- Data are in **"wide" format**
-- Suitable for forms collected once per record
-- Easy to analyze directly
+- Data are in **"wide" format** (57 variables)
+- Easier to analyze directly (*Tidy data*)
 
 ---
 
 class: top, left
 layout: true
-# Patterns of Data Export (Cross-sectional)
-## Repeating instruments [PID 3034](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3034)
+ # Cross-sectional projects
+## Repeating instruments
 
 ---
 
@@ -183,20 +190,37 @@ background-size: 60%
 ---
 
 background-image: url(img/csr_2.png)
-background-position: 25% 80%
+background-position: 25% 75%
 background-size: 60%
 
 ---
 
 background-image: url(img/csr_3.png)
-background-position: 25% 80%
+background-position: 25% 75%
 background-size: 60%
 
 ---
 
 background-image: url(img/csr_4.png)
-background-position: 25% 80%
+background-position: 25% 65%
 background-size: 60%
+
+---
+
+```{r}
+cross_sectional_r %>%
+  mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
+  slice(1:10) %>%
+  select(1:10) %>%
+  kbl(align = "l") %>% 
+  kable_styling(font_size = 16, full_width = FALSE) %>%
+  column_spec(2, bold = TRUE, color = "#903030") %>%  # redcap_repeat_instrument
+  column_spec(3, bold = TRUE, color = "#903030") # redcap_repeat_instance
+```
+
+- Two new columns: `redcap_repeat_instrument` & `redcap_repeat_instrument`
+- .my-coral[Duplicated `record_id` rows] for **each** repeat instance
+- Keeps non-repeating variables in the same line
 
 ---
 
@@ -205,25 +229,18 @@ cross_sectional_r %>%
   mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
   kbl(align = "l") %>%
   kable_styling(full_width = FALSE, font_size = 12) %>%
-  scroll_box(height = "450px")
+  scroll_box(height = "400px")
 ```
 
----
-class: top, left
-
-For cross-sectional projects with .my-coral[repeating instruments]:
-
-- .my-coral[Duplicates rows] for each repeat instance
-- Adds .my-coral[**redcap_repeat_instrument**] and .my-coral[**redcap_repeat_instance**] columns
-- Keeps non-repeating variables constant (e.g., record_id, first_name)
-- Useful for forms like PHQ-15 collected multiple times
+- Data are in **"long" format** (27 variables + 2 repeat columns) [*vs.* 57 variables]
 
 ---
 class: top, left
 layout: true
 
-# Patterns of Data Export (Longitudinal)
-## Longitudinal data [PID 3038](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3038)
+# Longitudinal projects
+## Non-repeating instruments
+
 ---
 
 background-image: url(img/long_1.png)
@@ -258,28 +275,36 @@ background-size: 60%
 
 ```{r}
 longitudinal %>%
+  slice(1:10) %>%
+  select(1:10) %>%
+  mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
+  kbl(align = "l") %>% 
+  kable_styling(full_width = FALSE, font_size = 16) %>% 
+  column_spec(2, bold = TRUE, color = "#903030")  # redcap_event_name
+```
+
+- One new columns: `redcap_event_name`
+- .my-coral[One `record_id` row] for **each** `event`
+- Each record_id row represents an event (e.g., visit 1, 2, 3)
+
+---
+
+```{r}
+longitudinal %>%
   mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
   kbl(align = "l") %>%
   kable_styling(full_width = FALSE, font_size = 12) %>%
   scroll_box(height = "450px")
 ```
 
----
-class: top, left
-
-In longitudinal projects with non-repeating forms:
-
-- Each row represents a visit/event (e.g., visit 1, 2, 3)
-- redcap_event_name indicates which time point
-- Variables are repeated across rows for the same participant
-- Export still includes record_id and visit-specific data
+- Data are in **"long" format**
 
 ---
 class: top, left
 layout: true
 
-# Patterns of Data Export (Longitudinal)
-## Longitudinal data with repeating instruments & events [PID 3039](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3039)
+ # Longitudinal projects
+## Repeating Instruments & Events
 
 ---
 
@@ -315,6 +340,23 @@ background-size: 60%
 
 ```{r}
 longitudinal_r %>%
+  slice(1:10) %>%
+  select(1:10) %>%
+  mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
+  kbl(align = "l") %>%
+  kable_styling(full_width = FALSE, font_size = 16) %>% 
+  column_spec(2, bold = TRUE, color = "#903030") %>%
+  column_spec(3, bold = TRUE, color = "#903030") %>%
+  column_spec(4, bold = TRUE, color = "#903030")
+```
+
+- REDCap adds both layers of repetition: `redcap_repeat_instrument`, `redcap_repeat_instance` & `redcap_event_name`
+- Rows are repeated by `record_id`, `redcap_event_name`, and `redcap_repeat_instrument`
+
+---
+
+```{r}
+longitudinal_r %>%
   mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
   kbl(align = "l") %>%
   kable_styling(full_width = FALSE, font_size = 12) %>%
@@ -322,51 +364,20 @@ longitudinal_r %>%
 ```
 
 ---
-class: top, left
-
-In projects that are longitudinal and use repeating instruments, REDCap adds both layers of repetition:
-
-- Rows are repeated by record_id, redcap_event_name, and redcap_repeat_instrument
-- Both event structure and form repetition are handled
-- Allows complex structures like multiple medications per visit
-
----
 layout: false
-class: middle, center 
+class: Top, left
 
-```{r}
-data.frame(
-  `Project Type` = c(
-    "Cross-sectional", 
-    "Cross-sectional + Repeating Instruments", 
-    "Longitudinal", 
-    "Longitudinal + Repeating Instruments"
-  ),
-  `row per` = c(
-    "participant", 
-    "repeat instance", 
-    "event per participant", 
-    "repeat instance per event"
-  ),
-  `key columns` = c(
-    "record_id", 
-    "record_id, redcap_repeat_instrument, redcap_repeat_instance", 
-    "record_id, redcap_event_name", 
-    "record_id, redcap_event_name, redcap_repeat_instrument, redcap_repeat_instance"
-  ),
-  `structure` = c(
-    "Wide", 
-    "Long (repeated rows)", 
-    "Long (per visit)", 
-    "Long (per form per visit)"
-  ),
-  check.names = FALSE
-) %>%
-  kbl(align = "c") %>%
-  kable_styling(full_width = FALSE, font_size = 20)
-```
+# Summary
+<br/>
+<br/>
+<br/>
 
-
+| **Project Type** | **row per** | **key columns** | **structure** |
+|------------------|-------------|------------------|----------------------------|
+| **Cross-sectional** | participant | `record_id` | Wide |
+| **Cross-sectional** + <br/>.my-coral[Repeating Instruments] | repeat instance | `record_id`,<br/>.blue[redcap_repeat_instrument, redcap_repeat_instance] | Long (repeated rows) |
+| **Longitudinal** | event per participant | `record_id`,<br/>.my-coral[redcap_event_name] | Long (per visit) |
+| **Longitudinal** + <br/>.my-coral[Repeating Instruments/Events] | repeat instance <br/>**per** event | `record_id`,<br/>.my-coral[redcap_event_name],<br/> .blue[redcap_repeat_instrument], <br/> .blue[redcap_repeat_instance] | Long (per form per visit) |
 
 ---
 layout:false

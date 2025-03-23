@@ -1,8 +1,3 @@
----
-title: "README"
-output: html_document
----
-
 # MED5711 - Health Information Systems
 
 This repository contains teaching materials for the discipline **MED5711 - Health Information Systems**, offered by the Graduate Program at the Ribeirão Preto Medical School, University of São Paulo (FMRP-USP).
