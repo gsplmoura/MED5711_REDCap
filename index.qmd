@@ -1,0 +1,137 @@
+---
+title: "MED5711 Sistemas de Informação"
+subtitle: "REDCap"
+institution: "Faculdade de Medicina de Ribeirão Preto, Universidade de São Paulo"
+author:
+  name: "**Gustavo Santos Paiva Laender Moura**"
+  affiliation: "Divisão de Nutrologia, Departamento de Clínica Médica"
+  email: "gsplmoura@usp.br"
+date: today
+format:
+  html:
+    theme: flatly
+    toc: true
+    toc-location: right
+    number-sections: false
+    highlight-style: github
+    smooth-scroll: true
+    css: index.css
+license: "CC BY 4.0"
+---
+
+```{r setup, include=FALSE}
+library(fontawesome)
+```
+
+[GitHub Pages](https://gsplmoura.github.io/MED5711_REDCap/) `r fontawesome::fa("github")`  
+[Repositório GitHub](https://github.com/gsplmoura/MED5711_REDCap/) `r fontawesome::fa("database")`
+
+# Geral
+
+**Este repositório contém materiais relacionados a disciplina [MED5711 Sistemas de Informação](https://edisciplinas.usp.br/course/view.php?id=130368)**
+
+*Faculdade de Medicina de Ribeirão Preto, Universidade de São Paulo*
+
+**Coordenador**
+
+- [Professor Dr. Fabio Carmona](mailto:carmona@fmrp.usp.br) (DPP-FMRP)
+
+**Colaboradores**
+
+- [Ricardo Perussi](mailto:rperussi@fmrp.usp.br) (STI-FMRP)
+
+- [Carlos Alberto Siqueira Lima Jr.](mailto:carlosjunior@hcrp.usp.br) (DPP-FMRP/FAEPA) 
+
+- [Gustavo S. P. Laender Moura](mailto:gsplmoura@usp.br) (DCM-FMRP)
+
+**[Programa da disciplina](Syllabus.html)**
+
+## Slides
+
+<details open>
+
+<summary><strong>expandir ou recolher</strong></summary>
+
+### Repeating Instruments and events 
+
+- [Slides](Slides/Repeating_instruments.html)
+- [Aula](https://www.youtube.com/watch?v=ygFd1ChjnYE)
+
+### Data Export in the context of Tidy data
+
+- [Slides](Slides/DataExport.html)
+
+</details>
+
+---
+
+## Dados e arquivos
+
+Cada pasta abaixo contém arquivos de exemplo exportados do REDCap, bem como scripts `.R` e modelos para importação de dados. Use-os para praticar diferentes tipos de estrutura de banco de dados.
+
+---
+
+### Cross-sectional sem instrumentos repetidos
+
+<details open><summary><strong>expandir ou recolher</strong></summary>
+
+- [Data export](PID_3037_non-repeating_instruments/cross-sectional_non-repeating.csv)
+- [Data dictionary](PID_3037_non-repeating_instruments/data_dictionary_nri.csv)
+- [Template de importação em branco](PID_3037_non-repeating_instruments/import_template_nri.csv)
+- [Template de importação de dados demográficos](PID_3037_non-repeating_instruments/import_demographics_nri.csv)
+- [Template de importação PHQ15_1 e PHQ15_2](PID_3037_non-repeating_instruments/import_phq15_nri.csv)
+- [Template de importação PHQ15_3](PID_3037_non-repeating_instruments/import_phq15_3_nri.csv)
+- [Código R utilizado para criar dados fictícios](PID_3037_non-repeating_instruments/random_data_nri.R)
+
+</details>
+
+---
+
+### Cross-sectional com instrumentos repetidos
+
+<details open><summary><strong>expandir ou recolher</strong></summary>
+
+- [Data export](PID_3034_repeating_instruments/cross-sectional_repeating.csv)
+- [Data dictionary](PID_3034_repeating_instruments/data_dictionary.csv)
+- [Template de importação em branco](PID_3034_repeating_instruments/import_template.csv)
+- [Template de importação de dados demográficos](PID_3034_repeating_instruments/import_demographics.csv)
+- [Template de importação PHQ15](PID_3034_repeating_instruments/import_phq15.csv)
+- [Código R utilizado para criar dados fictícios](PID_3034_repeating_instruments/random_data_ri.R)
+
+</details>
+
+---
+
+### Longitudinal sem instrumentos repetidos
+
+<details open><summary><strong>expandir ou recolher</strong></summary>
+
+- [Data export](PID_3038_longitudinal/longitudinal_non-repeating.csv)
+- [Data dictionary](PID_3038_longitudinal/data_dictionary_long.csv)
+- [Template de importação em branco](PID_3038_longitudinal/import_template_long.csv)
+- [Template de importação de dados demográficos](PID_3038_longitudinal/import_demographics_long.csv)
+- [Template de importação PHQ15](PID_3038_longitudinal/import_phq15_long.csv)
+- [Código R utilizado para criar dados fictícios](PID_3038_longitudinal/random_data_long.R)
+
+</details>
+
+---
+
+### Longitudinal com eventos e instrumentos repetidos
+
+<details open><summary><strong>expandir ou recolher</strong></summary>
+
+- [Data export](PID_3039_longitudinal_repeating_events_instruments/longitudinal_repeating.csv)
+- [Data dictionary](PID_3039_longitudinal_repeating_events_instruments/data_dictionary_long_r.csv)
+- [Template de importação em branco](PID_3039_longitudinal_repeating_events_instruments/import_template_long_r.csv)
+- [Template de importação de dados demográficos](PID_3039_longitudinal_repeating_events_instruments/import_demographics_long_r.csv)
+- [Template de importação adverse_events (sem evento adverso)](PID_3039_longitudinal_repeating_events_instruments/import_adverse_events_no_long_r.csv)
+- [Template de importação adverse_events (com evento adverso)](PID_3039_longitudinal_repeating_events_instruments/import_adverse_events_yes_long_r.csv)
+- [Template de importação medication_single](PID_3039_longitudinal_repeating_events_instruments/import_medication_single_long_r.csv)
+- [Código R utilizado para criar dados fictícios](PID_3039_longitudinal_repeating_events_instruments/random_data_long_r.R)
+
+</details>
+
+---
+
+</details>

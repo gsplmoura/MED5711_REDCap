@@ -1,0 +1,42 @@
+<!--Hat-tip: https://www.garrickadenbuie.com/blog/xaringan-tip-logo-all-slides/-->
+<!-- insert multiple logos on every slide by duplicating the <div> and updating the CSS classes and styles accordingly.-->
+<style>
+.logo-usp {
+  background-image: url(img/logo-fmrp.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  width: 200px;
+  height: 200px;
+  z-index: 0;
+}
+.logo-redcap {
+  background-image: url(img/logo-redcap.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 2.2em;
+  right: 2.2em;
+  width: 130px;
+  height: 130px;
+  z-index: 0;
+}
+</style>
+
+<script>
+/* Add additinol classes inside of .querySelectorAll to exclude additional classes.
+ Use .hide-logo in a slide’s class to disable logos on specific slides */
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    ':not(.title-slide)' +
+    ':not(.inverse)' +
+    ':not(.hide-logo)'
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="logo-usp"></div>';
+    el.innerHTML += '<div class="logo-redcap"></div>';
+  });
+</script>

@@ -1,0 +1,162 @@
+---
+title: "MED5711 - Sistemas de Informação"
+subtitle: "Manejo de instrumentos e eventos repetidos"
+author: "Gustavo Santos Paiva Laender Moura"
+institute: "Universidade de São Paulo | Dept. de Clínica Médica, Divisão de Nutrologia"
+date: "22 de março de 2025"
+output:
+  xaringan::moon_reader:
+    css:
+      - default
+      - css/mytheme.css
+      - css/mytheme-fonts.css
+    lib_dir: libs
+    seal: false
+    self_contained: false
+    nature:
+      highlightStyle: googlecode
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: 16:9
+      beforeInit: "macros.js"
+    includes:
+      after_body: "css/insert-logo.html"
+---
+
+```{r setup, include = FALSE}
+options(htmltools.dir.version = FALSE)
+# devtools::install_github("hadley/emo") 
+  # https://github.com/hadley/emo#emoji
+library(emo)
+library(knitr)
+library(tidyverse)
+library(xaringanExtra)
+library(NHSRtheme)
+library(icons)
+# set default options
+opts_chunk$set(echo=FALSE,
+               collapse = TRUE,
+               fig.width = 7.252,
+               fig.height = 4,
+               dpi = 300)
+
+# set engines
+knitr::knit_engines$set("markdown")
+
+#xaringanExtra::use_tile_view()
+#xaringanExtra::use_panelset()
+#xaringanExtra::use_clipboard()
+#xaringanExtra::use_webcam()
+#xaringanExtra::use_broadcast()
+#xaringanExtra::use_share_again()
+#xaringanExtra::style_share_again(share_buttons = c("twitter", "linkedin", "pocket"))
+```
+
+class: title-slide, left, middle
+background-image: url(img/logo-xaringan.png), url(img/logo-ppgcm.png), url(img/logo-redcap.png)
+background-position: 97% 95%, 100% 2%, 0% 2%
+background-size: 8%, 25%, 25%
+
+  # `r rmarkdown::metadata$title`
+----
+  ## **`r rmarkdown::metadata$subtitle`**
+
+.footnote[
+  ### `r rmarkdown::metadata$author`
+  ### `r rmarkdown::metadata$date`
+]
+
+---
+name: about-me
+layout: false
+class: about-me-slide, inverse, middle, center
+
+# About me
+
+<img style="border-radius: 50%;" src="img/me.png" width="250px"/>
+
+## Gustavo Moura
+
+### Divisão de Nutrologia, Depto. de Clínica Médica
+
+.fade[Faculdade de Medicina de Ribeirão Preto<br>Universidade de São Paulo]
+
+[`r fontawesome::fa("github", a11y = "sem")` @gsplmoura](https://github.com/gsplmoura)
+
+---
+class: inverse, middle, center
+
+# Repeating instruments
+____
+
+---
+class: top, left
+
+ ## Repeating instruments
+
+- Allow you to `repeat a single instrument` an infinite number of times
+- Useful when a variable number of responses is expected
+- Works within `regular OR longitudinal projects`
+
+ ### Use cases:
+
+- List of medications at a single visit (unknown number per participant)
+- Multiple adverse events reported at one time point
+- Daily symptom logs within a single hospital stay
+
+ ### Examples:
+- [Cross-sectional projects without repeating events](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3037)
+- [Cross-sectional projects **with** repeating events](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3034)
+
+---
+
+class: inverse, middle, center
+
+# Repeating events
+____
+
+---
+class: top, left
+
+ ## Repeating events
+ 
+- Allow you to repeat an entire event (a set of instruments) multiple times for the same participant.
+- Useful when the same data needs to be collected at multiple time points.
+- *Only* works within `longitudinal projects`
+
+ ### Use cases:
+ 
+- Longitudinal studies (e.g., baseline, n()`follow-up`, last visit)
+- Hospital admissions (multiple hospitalizations per patient)
+- Monthly or yearly assessments
+
+ ### Examples:
+- [Regular Longitudinal projects](https://redcap.fmrp.usp.br/redcap_v14.9.1/DataEntry/record_status_dashboard.php?pid=3038)
+- [Longitudinal Projects **with** repeating instruments](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3039)
+
+---
+class: inverse, middle, center
+
+# Repeating instruments within repeating events
+____
+
+---
+class: top, left
+
+ ## Repeating instruments within repeating events
+
+- *Only* works within `longitudinal projects`
+
+ ### Use cases:
+ 
+- Complex clinical trials
+- Nested repeated measures: multiple visits (events), and within each visit, multiple responses
+
+  ### Examples:
+- [Longitudinal Projects **with** repeating instruments](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3039)
+
+---
+layout:false
+class:inverse
+background-image:url(img/hex_stickers.png)
+background-size:contain

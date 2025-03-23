@@ -1,0 +1,375 @@
+---
+title: "MED5711 - Sistemas de Informação"
+subtitle: "REDCap Data export in the context of Tidy data"
+author: "Gustavo Santos Paiva Laender Moura"
+institute: "Universidade de São Paulo | Dept. de Clínica Médica, Divisão de Nutrologia"
+date: "22 de março de 2025"
+output:
+  xaringan::moon_reader:
+    css:
+      - default
+      - css/mytheme.css
+      - css/mytheme-fonts.css
+    lib_dir: libs
+    seal: false
+    self_contained: false
+    nature:
+      highlightStyle: googlecode
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: 16:9
+      beforeInit: "macros.js"
+    includes:
+      after_body: "css/insert-logo.html"
+---
+
+```{r setup, include = FALSE}
+# devtools::install_github("hadley/emo") 
+  # https://github.com/hadley/emo#emoji
+library(emo)
+library(knitr)
+library(tidyverse)
+library(kableExtra)
+library(htmltools)
+library(icons)
+# set default options
+opts_chunk$set(echo=FALSE,
+               message=FALSE,
+               warning=FALSE,
+               collapse = TRUE,
+               fig.width = 7.252,
+               fig.height = 4,
+               dpi = 300)
+
+options(knitr.table.format = "html")
+
+# Custom function to wrap any kable table in a scrollable div
+scrol_kbl <- function(df, ...) {
+    div(
+      class = "scrollable-table",
+      kbl(df, ...) %>%
+        kable_styling(full_width = FALSE) %>%
+        HTML()
+  )
+}
+```
+
+class: title-slide, left, middle
+background-image: url(img/logo-xaringan.png), url(img/logo-ppgcm.png), url(img/logo-redcap.png)
+background-position: 97% 95%, 100% 2%, 0% 2%
+background-size: 8%, 25%, 25%
+
+  # `r rmarkdown::metadata$title`
+----
+  ## **`r rmarkdown::metadata$subtitle`**
+
+.footnote[
+  ### `r rmarkdown::metadata$author`
+  ### `r rmarkdown::metadata$date`
+]
+
+---
+name: about-me
+layout: false
+class: about-me-slide, inverse, middle, center
+
+# About me
+
+<img style="border-radius: 50%;" src="img/me.png" width="250px"/>
+
+## Gustavo Moura
+
+### Divisão de Nutrologia, Depto. de Clínica Médica
+
+.fade[Faculdade de Medicina de Ribeirão Preto<br>Universidade de São Paulo]
+
+[`r fontawesome::fa("github", a11y = "sem")` @gsplmoura](https://github.com/gsplmoura)
+
+---
+class: inverse, middle, center
+
+# Tidy data
+____
+
+---
+class: top, left
+background-image: url(img/tidy.png)
+background-position: 50% 50%
+background-size: 80%
+
+# Tidy data
+
+.footnote[[Hadley Wickham. R for Data Science, 2nd Edition. 2023](https://r4ds.hadley.nz/)]
+
+---
+
+class: inverse, middle, center
+background-image: url(img/logo-redcap.png)
+background-position: 50% 30%
+background-size: 30%
+
+# Patterns of Data Export
+____
+
+---
+class: top, left
+layout: true
+# Patterns of Data Export (Cross-sectional)
+## Non-repeating instruments [PID 3037](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3037)
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+library(tidyverse)
+library(here)
+library(janitor)
+library(knitr)
+library(kableExtra)
+cross_sectional <- read_csv(here("PID_3037_non-repeating_instruments", "cross-sectional_non-repeating.csv"))
+cross_sectional_r <- read_csv(here("PID_3034_repeating_instruments", "cross-sectional_repeating.csv"))
+longitudinal <- read_csv(here("PID_3038_longitudinal", "longitudinal_non-repeating.csv"))
+longitudinal_r <- read_csv(here("PID_3039_longitudinal_repeating_events_instruments", "longitudinal_repeating.csv"))
+```
+
+---
+
+background-image: url(img/csnr_1.png)
+background-position: 25% 80%
+background-size: 70%
+
+---
+
+background-image: url(img/csnr_2.png)
+background-position: 25% 80%
+background-size: 70%
+
+---
+
+background-image: url(img/csnr_3.png)
+background-position: 25% 70%
+background-size: 60%
+
+---
+
+```{r, class.output="tight"}
+cross_sectional %>%
+  mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
+  kbl(align = "l") %>%
+  kable_styling(full_width = FALSE, font_size = 14) %>%
+  scroll_box(height = "450px")
+```
+
+---
+class: top, left
+
+REDCap exports .my-coral[non-repeating instrument] data in a single row per participant.  
+Each row contains all variables collected in the form, and there is .my-coral[no repetition of] `record_id`.
+
+- Data are in **"wide" format**
+- Suitable for forms collected once per record
+- Easy to analyze directly
+
+---
+
+class: top, left
+layout: true
+# Patterns of Data Export (Cross-sectional)
+## Repeating instruments [PID 3034](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3034)
+
+---
+
+background-image: url(img/csr_1.png)
+background-position: 25% 80%
+background-size: 60%
+
+---
+
+background-image: url(img/csr_2.png)
+background-position: 25% 80%
+background-size: 60%
+
+---
+
+background-image: url(img/csr_3.png)
+background-position: 25% 80%
+background-size: 60%
+
+---
+
+background-image: url(img/csr_4.png)
+background-position: 25% 80%
+background-size: 60%
+
+---
+
+```{r}
+cross_sectional_r %>%
+  mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
+  kbl(align = "l") %>%
+  kable_styling(full_width = FALSE, font_size = 12) %>%
+  scroll_box(height = "450px")
+```
+
+---
+class: top, left
+
+For cross-sectional projects with .my-coral[repeating instruments]:
+
+- .my-coral[Duplicates rows] for each repeat instance
+- Adds .my-coral[**redcap_repeat_instrument**] and .my-coral[**redcap_repeat_instance**] columns
+- Keeps non-repeating variables constant (e.g., record_id, first_name)
+- Useful for forms like PHQ-15 collected multiple times
+
+---
+class: top, left
+layout: true
+
+# Patterns of Data Export (Longitudinal)
+## Longitudinal data [PID 3038](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3038)
+---
+
+background-image: url(img/long_1.png)
+background-position: 25% 90%
+background-size: 65%
+
+---
+
+background-image: url(img/long_2.png)
+background-position: 25% 70%
+background-size: 65%
+
+---
+
+background-image: url(img/long_3.png)
+background-position: 25% 80%
+background-size: 65%
+
+---
+
+background-image: url(img/long_4.png)
+background-position: 25% 100%
+background-size: 50%
+
+---
+
+background-image: url(img/long_5.png)
+background-position: 25% 60%
+background-size: 60%
+
+---
+
+```{r}
+longitudinal %>%
+  mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
+  kbl(align = "l") %>%
+  kable_styling(full_width = FALSE, font_size = 12) %>%
+  scroll_box(height = "450px")
+```
+
+---
+class: top, left
+
+In longitudinal projects with non-repeating forms:
+
+- Each row represents a visit/event (e.g., visit 1, 2, 3)
+- redcap_event_name indicates which time point
+- Variables are repeated across rows for the same participant
+- Export still includes record_id and visit-specific data
+
+---
+class: top, left
+layout: true
+
+# Patterns of Data Export (Longitudinal)
+## Longitudinal data with repeating instruments & events [PID 3039](https://redcap.fmrp.usp.br/redcap_v14.9.1/ProjectSetup/index.php?pid=3039)
+
+---
+
+background-image: url(img/longr_1.png)
+background-position: 25% 90%
+background-size: 70%
+
+---
+
+background-image: url(img/longr_2.png)
+background-position: 25% 55%
+background-size: 67%
+
+---
+
+background-image: url(img/longr_3.png)
+background-position: 25% 60%
+background-size: 68%
+
+---
+
+background-image: url(img/longr_4.png)
+background-position: 25% 50%
+background-size: 60%
+
+---
+
+background-image: url(img/longr_5.png)
+background-position: 25% 95%
+background-size: 60%
+
+---
+
+```{r}
+longitudinal_r %>%
+  mutate(across(everything(), ~ ifelse(is.na(.), "", .))) %>%
+  kbl(align = "l") %>%
+  kable_styling(full_width = FALSE, font_size = 12) %>%
+  scroll_box(height = "450px")
+```
+
+---
+class: top, left
+
+In projects that are longitudinal and use repeating instruments, REDCap adds both layers of repetition:
+
+- Rows are repeated by record_id, redcap_event_name, and redcap_repeat_instrument
+- Both event structure and form repetition are handled
+- Allows complex structures like multiple medications per visit
+
+---
+layout: false
+class: middle, center 
+
+```{r}
+data.frame(
+  `Project Type` = c(
+    "Cross-sectional", 
+    "Cross-sectional + Repeating Instruments", 
+    "Longitudinal", 
+    "Longitudinal + Repeating Instruments"
+  ),
+  `row per` = c(
+    "participant", 
+    "repeat instance", 
+    "event per participant", 
+    "repeat instance per event"
+  ),
+  `key columns` = c(
+    "record_id", 
+    "record_id, redcap_repeat_instrument, redcap_repeat_instance", 
+    "record_id, redcap_event_name", 
+    "record_id, redcap_event_name, redcap_repeat_instrument, redcap_repeat_instance"
+  ),
+  `structure` = c(
+    "Wide", 
+    "Long (repeated rows)", 
+    "Long (per visit)", 
+    "Long (per form per visit)"
+  ),
+  check.names = FALSE
+) %>%
+  kbl(align = "c") %>%
+  kable_styling(full_width = FALSE, font_size = 20)
+```
+
+
+
+---
+layout:false
+class:inverse
+background-image:url(img/hex_stickers.png)
+background-size:contain
